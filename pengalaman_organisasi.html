@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pengalaman & Organisasi — Ripan Nursalam</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sky: #03060f;
+  --ink: #e8eaf6;
+  --muted: rgba(200,210,240,0.45);
+  --dim: rgba(200,210,240,0.22);
+  --line: rgba(255,255,255,0.07);
+  --accent-exp: #7ec8ff;
+  --accent-org: #b88cff;
+  --accent-pmm: #50e8a0;
+  --gold: #ffd97d;
+}
+* { margin:0;padding:0;box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  background:var(--sky);
+  color:var(--ink);
+  font-family:'DM Sans',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+  line-height:1.7;
+}
+canvas#stars { position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none; }
+
+/* ── BACK ── */
+.back-btn {
+  position:fixed;top:20px;left:20px;z-index:200;
+  display:flex;align-items:center;gap:8px;
+  background:rgba(3,6,15,0.85);
+  border:1px solid rgba(126,200,255,0.3);
+  color:var(--accent-exp);
+  font-family:'DM Mono',monospace;
+  font-size:10px;letter-spacing:0.15em;text-transform:uppercase;
+  padding:8px 14px;text-decoration:none;
+  backdrop-filter:blur(10px);transition:all 0.25s;
+}
+.back-btn:hover { background:rgba(126,200,255,0.1);border-color:rgba(126,200,255,0.7); }
+
+/* ── WRAPPER ── */
+.wrap { position:relative;z-index:2;max-width:860px;margin:0 auto;padding:90px 24px 100px; }
+
+/* ── HERO ── */
+.hero { margin-bottom:72px;animation:fadeUp 0.9s ease both; }
+.hero-eyebrow {
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:'DM Mono',monospace;font-size:10px;
+  letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--accent-exp);margin-bottom:20px;
+}
+.hero-eyebrow::before { content:'';width:28px;height:1px;background:var(--accent-exp); }
+.hero h1 {
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(2.4rem,6vw,4rem);
+  font-weight:400;line-height:1.1;
+  color:#fff;margin-bottom:16px;
+  letter-spacing:-0.02em;
+}
+.hero h1 em { font-style:italic;color:var(--accent-exp); }
+.hero-sub {
+  font-size:14.5px;color:var(--muted);font-weight:300;
+  max-width:520px;line-height:1.75;
+}
+.hero-stats {
+  display:flex;gap:32px;margin-top:32px;flex-wrap:wrap;
+}
+.stat {
+  display:flex;flex-direction:column;gap:2px;
+}
+.stat-num {
+  font-family:'DM Serif Display',serif;
+  font-size:2rem;color:#fff;line-height:1;
+}
+.stat-label {
+  font-family:'DM Mono',monospace;font-size:10px;
+  letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--dim);
+}
+
+/* ── SECTION DIVIDER ── */
+.sec-head {
+  display:flex;align-items:center;gap:14px;
+  margin-bottom:40px;
+}
+.sec-head-line { flex:1;height:1px;background:var(--line); }
+.sec-head-label {
+  font-family:'DM Mono',monospace;font-size:10px;
+  letter-spacing:0.22em;text-transform:uppercase;
+  padding:6px 14px;border-radius:100px;
+  white-space:nowrap;
+}
+.sec-head-label.exp { color:var(--accent-exp);border:1px solid rgba(126,200,255,0.25);background:rgba(126,200,255,0.06); }
+.sec-head-label.org { color:var(--accent-org);border:1px solid rgba(184,140,255,0.25);background:rgba(184,140,255,0.06); }
+
+/* ── TIMELINE ── */
+.timeline {
+  position:relative;
+  padding-left:48px;
+  margin-bottom:72px;
+}
+.timeline::before {
+  content:'';
+  position:absolute;left:15px;top:0;bottom:0;
+  width:1px;background:var(--line);
+}
+
+/* ── TIMELINE ITEM ── */
+.tl-item {
+  position:relative;
+  margin-bottom:48px;
+  animation:fadeUp 0.8s ease both;
+}
+.tl-item:last-child { margin-bottom:0; }
+
+/* dot */
+.tl-dot {
+  position:absolute;left:-41px;top:6px;
+  width:14px;height:14px;border-radius:50%;
+  border:2px solid;
+  background:var(--sky);
+  transition:transform 0.3s;
+}
+.tl-item:hover .tl-dot { transform:scale(1.4); }
+.dot-exp { border-color:var(--accent-exp);box-shadow:0 0 8px rgba(126,200,255,0.4); }
+.dot-org { border-color:var(--accent-org);box-shadow:0 0 8px rgba(184,140,255,0.4); }
+.dot-pmm { border-color:var(--accent-pmm);box-shadow:0 0 8px rgba(80,232,160,0.4); }
+.dot-osis { border-color:var(--gold);box-shadow:0 0 8px rgba(255,217,125,0.4); }
+
+/* card */
+.tl-card {
+  background:rgba(255,255,255,0.025);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:28px 30px;
+  transition:all 0.3s;
+  position:relative;
+  overflow:hidden;
+}
+.tl-card::before {
+  content:'';
+  position:absolute;left:0;top:0;bottom:0;width:3px;
+  border-radius:3px 0 0 3px;
+  opacity:0;transition:opacity 0.3s;
+}
+.tl-item:hover .tl-card { background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.12); }
+.tl-item:hover .tl-card::before { opacity:1; }
+
+.card-exp::before  { background:var(--accent-exp); }
+.card-org::before  { background:var(--accent-org); }
+.card-pmm::before  { background:var(--accent-pmm); }
+.card-osis::before { background:var(--gold); }
+
+/* card header */
+.card-top {
+  display:flex;align-items:flex-start;justify-content:space-between;
+  gap:16px;margin-bottom:14px;flex-wrap:wrap;
+}
+.card-left { flex:1; }
+.card-period {
+  font-family:'DM Mono',monospace;font-size:10px;
+  letter-spacing:0.12em;text-transform:uppercase;
+  margin-bottom:8px;
+}
+.period-exp  { color:var(--accent-exp); }
+.period-org  { color:var(--accent-org); }
+.period-pmm  { color:var(--accent-pmm); }
+.period-osis { color:var(--gold); }
+
+.card-title {
+  font-family:'DM Serif Display',serif;
+  font-size:1.35rem;color:#fff;line-height:1.2;
+  margin-bottom:5px;letter-spacing:-0.01em;
+}
+.card-subtitle {
+  font-size:13px;color:var(--muted);font-weight:300;
+}
+.card-badge {
+  font-family:'DM Mono',monospace;font-size:9px;
+  padding:4px 11px;border-radius:100px;
+  letter-spacing:0.1em;text-transform:uppercase;
+  white-space:nowrap;flex-shrink:0;
+}
+.badge-magang  { background:rgba(126,200,255,0.12);color:var(--accent-exp);border:1px solid rgba(126,200,255,0.25); }
+.badge-mbkm   { background:rgba(80,232,160,0.12);color:var(--accent-pmm);border:1px solid rgba(80,232,160,0.25); }
+.badge-himpun { background:rgba(184,140,255,0.12);color:var(--accent-org);border:1px solid rgba(184,140,255,0.25); }
+.badge-osis   { background:rgba(255,217,125,0.1);color:var(--gold);border:1px solid rgba(255,217,125,0.25); }
+
+/* desc */
+.card-desc {
+  font-size:13.5px;color:var(--muted);
+  margin-bottom:18px;line-height:1.75;
+}
+
+/* tasks */
+.card-tasks { list-style:none;margin-bottom:18px; }
+.card-tasks li {
+  display:flex;gap:10px;
+  font-size:13px;color:rgba(200,215,240,0.65);
+  padding:5px 0;
+  border-bottom:1px solid rgba(255,255,255,0.04);
+  line-height:1.55;
+}
+.card-tasks li:last-child { border-bottom:none; }
+.task-bullet {
+  width:5px;height:5px;border-radius:50%;
+  flex-shrink:0;margin-top:7px;
+}
+.bullet-exp  { background:var(--accent-exp); }
+.bullet-org  { background:var(--accent-org); }
+.bullet-pmm  { background:var(--accent-pmm); }
+.bullet-osis { background:var(--gold); }
+
+/* skill tags */
+.skill-row { display:flex;gap:6px;flex-wrap:wrap; }
+.skill-tag {
+  font-family:'DM Mono',monospace;font-size:10px;
+  padding:3px 10px;border-radius:100px;
+  border:1px solid var(--line);
+  color:var(--dim);letter-spacing:0.06em;
+  transition:all 0.2s;
+}
+.tl-item:hover .skill-tag { border-color:rgba(255,255,255,0.15);color:rgba(200,215,240,0.55); }
+
+/* highlight number strip */
+.highlight-strip {
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:var(--line);
+  border-radius:14px;overflow:hidden;
+  margin-bottom:12px;
+}
+.hl-box {
+  background:rgba(255,255,255,0.02);
+  padding:14px 16px;text-align:center;
+}
+.hl-num {
+  font-family:'DM Serif Display',serif;
+  font-size:1.5rem;color:#fff;line-height:1;margin-bottom:3px;
+}
+.hl-label {
+  font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--dim);
+}
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)} }
+.tl-item:nth-child(1){animation-delay:0.08s}
+.tl-item:nth-child(2){animation-delay:0.18s}
+.tl-item:nth-child(3){animation-delay:0.28s}
+.tl-item:nth-child(4){animation-delay:0.38s}
+.tl-item:nth-child(5){animation-delay:0.48s}
+
+@media(max-width:600px){
+  .wrap{padding:76px 16px 80px}
+  .timeline{padding-left:36px}
+  .tl-dot{left:-30px}
+  .hero-stats{gap:20px}
+  .highlight-strip{grid-template-columns:1fr 1fr}
+  .card-top{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<canvas id="stars"></canvas>
+<a href="index.html" class="back-btn">← Portfolio</a>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">Pengalaman & Organisasi</div>
+    <h1>Perjalanan<br><em>Profesional</em></h1>
+    <p class="hero-sub">
+      Dari bangku kampus ke lapangan nyata — magang di instansi pemerintah,
+      pertukaran mahasiswa lintas pulau, dan kepemimpinan organisasi.
+    </p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">3</span><span class="stat-label">Pengalaman Magang</span></div>
+      <div class="stat"><span class="stat-num">2</span><span class="stat-label">Organisasi</span></div>
+      <div class="stat"><span class="stat-num">9</span><span class="stat-label">Bulan Lapangan</span></div>
+      <div class="stat"><span class="stat-num">3</span><span class="stat-label">Provinsi</span></div>
+    </div>
+  </div>
+
+  <!-- ═══ PENGALAMAN ═══ -->
+  <div class="sec-head">
+    <div class="sec-head-line"></div>
+    <span class="sec-head-label exp">Pengalaman Kerja</span>
+    <div class="sec-head-line"></div>
+  </div>
+
+  <div class="timeline">
+
+    <!-- 1. ATR/BPN -->
+    <div class="tl-item">
+      <div class="tl-dot dot-exp"></div>
+      <div class="tl-card card-exp">
+        <div class="card-top">
+          <div class="card-left">
+            <div class="card-period period-exp">Sep 2024 – Des 2024 · 4 Bulan</div>
+            <div class="card-title">Kementerian ATR/BPN<br>DPUPR Kab. Sarolangun</div>
+            <div class="card-subtitle">Tim Penyusun RDTR · Program INSPIRING (MSIB Batch 7)</div>
+          </div>
+          <span class="card-badge badge-magang">Magang MSIB</span>
+        </div>
+
+        <div class="highlight-strip">
+          <div class="hl-box"><div class="hl-num">2</div><div class="hl-label">Wilayah RDTR</div></div>
+          <div class="hl-box"><div class="hl-num">1</div><div class="hl-label">Konsultasi Publik</div></div>
+          <div class="hl-box"><div class="hl-num">Batch 7</div><div class="hl-label">MSIB</div></div>
+        </div>
+
+        <ul class="card-tasks">
+          <li><span class="task-bullet bullet-exp"></span>Menyusun delineasi RDTR Batang Asai melalui analisis spasial dan pengolahan data primer/sekunder.</li>
+          <li><span class="task-bullet bullet-exp"></span>Melakukan survei lapangan dan menyusun instrumen wawancara untuk data kependudukan serta sarana prasarana.</li>
+          <li><span class="task-bullet bullet-exp"></span>Berkontribusi dalam Konsultasi Publik RDTR Perkotaan Singkut untuk menjaring isu strategis wilayah.</li>
+          <li><span class="task-bullet bullet-exp"></span>Menyusun dokumen Materi Teknis (Buku Fakta dan Analisis) mencakup aspek demografi dan pola ruang.</li>
+        </ul>
+        <div class="skill-row">
+          <span class="skill-tag">QGIS</span>
+          <span class="skill-tag">ArcGIS</span>
+          <span class="skill-tag">Delineasi RDTR</span>
+          <span class="skill-tag">Survei Lapangan</span>
+          <span class="skill-tag">Pola Ruang</span>
+          <span class="skill-tag">Wawancara</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. BAPPEDALITBANG -->
+    <div class="tl-item">
+      <div class="tl-dot dot-exp"></div>
+      <div class="tl-card card-exp">
+        <div class="card-top">
+          <div class="card-left">
+            <div class="card-period period-exp">Agt 2024 – Sep 2024 · 2 Bulan</div>
+            <div class="card-title">Bappedalitbang<br>Kabupaten Batang</div>
+            <div class="card-subtitle">Bidang Infrastruktur & Pengembangan Wilayah</div>
+          </div>
+          <span class="card-badge badge-magang">Magang</span>
+        </div>
+
+        <div class="highlight-strip">
+          <div class="hl-box"><div class="hl-num">1</div><div class="hl-label">Laporan Kajian</div></div>
+          <div class="hl-box"><div class="hl-num">2030</div><div class="hl-label">Proyeksi</div></div>
+          <div class="hl-box"><div class="hl-num">KITB</div><div class="hl-label">Kawasan Industri</div></div>
+        </div>
+
+        <ul class="card-tasks">
+          <li><span class="task-bullet bullet-exp"></span>Menyusun laporan "Kajian Transportasi di Kawasan Industri Terpadu Batang (KITB)".</li>
+          <li><span class="task-bullet bullet-exp"></span>Melakukan analisis bangkitan dan tarikan perjalanan (trip generation) untuk memprediksi beban jalan di kawasan industri.</li>
+          <li><span class="task-bullet bullet-exp"></span>Mengevaluasi aksesibilitas sarana transportasi publik dan distribusi logistik di wilayah Kabupaten Batang.</li>
+          <li><span class="task-bullet bullet-exp"></span>Memberikan rekomendasi pengembangan rute transportasi lokal untuk mendukung konektivitas pekerja di KITB.</li>
+        </ul>
+        <div class="skill-row">
+          <span class="skill-tag">Trip Generation</span>
+          <span class="skill-tag">Transportasi</span>
+          <span class="skill-tag">Aksesibilitas</span>
+          <span class="skill-tag">GIS</span>
+          <span class="skill-tag">Analisis Jaringan</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. PMM -->
+    <div class="tl-item">
+      <div class="tl-dot dot-pmm"></div>
+      <div class="tl-card card-pmm">
+        <div class="card-top">
+          <div class="card-left">
+            <div class="card-period period-pmm">Sep 2023 – Jan 2024 · 5 Bulan</div>
+            <div class="card-title">Pertukaran Mahasiswa Merdeka 3<br>Universitas Bosowa Makassar</div>
+            <div class="card-subtitle">Program MBKM Kampus Merdeka · Sulawesi Selatan</div>
+          </div>
+          <span class="card-badge badge-mbkm">PMM · MBKM</span>
+        </div>
+
+        <div class="highlight-strip">
+          <div class="hl-box"><div class="hl-num">5</div><div class="hl-label">Bulan</div></div>
+          <div class="hl-box"><div class="hl-num">1</div><div class="hl-label">Desa Binaan</div></div>
+          <div class="hl-box"><div class="hl-num">Makassar</div><div class="hl-label">Lokasi</div></div>
+        </div>
+
+        <ul class="card-tasks">
+          <li><span class="task-bullet bullet-pmm"></span>Mengikuti program MBKM Kampus Merdeka di Universitas Bosowa, Makassar.</li>
+          <li><span class="task-bullet bullet-pmm"></span>Melaksanakan kegiatan Modul Nusantara dengan kunjungan mingguan ke tempat bersejarah, ibadah, dan lokasi penting.</li>
+          <li><span class="task-bullet bullet-pmm"></span>Berpartisipasi dalam pengabdian masyarakat di Desa Bontomanai, Kecamatan Bungaya, Kabupaten Gowa, Sulawesi Selatan.</li>
+        </ul>
+        <div class="skill-row">
+          <span class="skill-tag">Pengabdian Masyarakat</span>
+          <span class="skill-tag">Modul Nusantara</span>
+          <span class="skill-tag">Lintas Budaya</span>
+          <span class="skill-tag">Kolaborasi</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══ ORGANISASI ═══ -->
+  <div class="sec-head">
+    <div class="sec-head-line"></div>
+    <span class="sec-head-label org">Organisasi</span>
+    <div class="sec-head-line"></div>
+  </div>
+
+  <div class="timeline">
+
+    <!-- 4. HMPL -->
+    <div class="tl-item">
+      <div class="tl-dot dot-org"></div>
+      <div class="tl-card card-org">
+        <div class="card-top">
+          <div class="card-left">
+            <div class="card-period period-org">Feb 2022 – Jan 2024 · 2 Tahun</div>
+            <div class="card-title">Himpunan Mahasiswa Planologi<br>ITENAS Bandung</div>
+            <div class="card-subtitle">Anggota Divisi HUMAS Eksternal</div>
+          </div>
+          <span class="card-badge badge-himpun">Himpunan</span>
+        </div>
+        <ul class="card-tasks">
+          <li><span class="task-bullet bullet-org"></span>Menjembatani HMPL ITENAS dengan lembaga/organisasi di luar kampus.</li>
+          <li><span class="task-bullet bullet-org"></span>Membangun hubungan dengan Himpunan Mahasiswa Planologi dari kampus lain di seluruh Indonesia.</li>
+          <li><span class="task-bullet bullet-org"></span>Menyampaikan informasi antara HMPL ITENAS dan organisasi eksternal secara efektif.</li>
+          <li><span class="task-bullet bullet-org"></span>Mendukung partisipasi HMPL ITENAS dalam kegiatan eksternal tingkat nasional.</li>
+        </ul>
+        <div class="skill-row">
+          <span class="skill-tag">Komunikasi</span>
+          <span class="skill-tag">Hubungan Eksternal</span>
+          <span class="skill-tag">Networking</span>
+          <span class="skill-tag">Event</span>
+          <span class="skill-tag">Kolaborasi</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. OSIS -->
+    <div class="tl-item">
+      <div class="tl-dot dot-osis"></div>
+      <div class="tl-card card-osis">
+        <div class="card-top">
+          <div class="card-left">
+            <div class="card-period period-osis">Jul 2018 – Feb 2021 · 2,5 Tahun</div>
+            <div class="card-title">OSIS SMA Negeri 1 Ciwidey<br>Kabupaten Bandung</div>
+            <div class="card-subtitle">Sekretaris I & Anggota Bidang TIK</div>
+          </div>
+          <span class="card-badge badge-osis">OSIS</span>
+        </div>
+
+        <div class="highlight-strip">
+          <div class="hl-box"><div class="hl-num">2</div><div class="hl-label">Jabatan</div></div>
+          <div class="hl-box"><div class="hl-num">2,5</div><div class="hl-label">Tahun Aktif</div></div>
+          <div class="hl-box"><div class="hl-num">SMA</div><div class="hl-label">Tingkat</div></div>
+        </div>
+
+        <p class="card-desc">Berperan aktif dalam dua jabatan berbeda — dari pengelolaan media digital sebagai anggota TIK hingga memegang tanggung jawab administrasi sebagai Sekretaris I.</p>
+        <ul class="card-tasks">
+          <li><span class="task-bullet bullet-osis"></span><strong style="color:rgba(255,217,125,0.8);font-weight:500">Sekretaris I (Okt 2019 – Feb 2021):</strong> Menyusun notulen rapat, mengelola administrasi dan surat-menyurat, serta membantu perencanaan kegiatan OSIS.</li>
+          <li><span class="task-bullet bullet-osis"></span><strong style="color:rgba(255,217,125,0.8);font-weight:500">Bidang TIK (Jul 2018 – Sep 2019):</strong> Bertanggung jawab atas publikasi & dokumentasi kegiatan, membuat materi promosi digital, dan mengelola media sosial OSIS.</li>
+        </ul>
+        <div class="skill-row">
+          <span class="skill-tag">Administrasi</span>
+          <span class="skill-tag">Desain Grafis</span>
+          <span class="skill-tag">Media Sosial</span>
+          <span class="skill-tag">Dokumentasi</span>
+          <span class="skill-tag">Manajemen Acara</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+const canvas=document.getElementById('stars'),ctx=canvas.getContext('2d');
+let W,H,stars=[],meteors=[];
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+function initStars(){stars=[];for(let i=0;i<200;i++)stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.3+0.2,alpha:Math.random()*0.65+0.2,speed:Math.random()*0.0004+0.0002,phase:Math.random()*Math.PI*2});}
+function spawnMeteor(){meteors.push({x:Math.random()*W*1.2-W*0.1,y:-20,vx:3.5+Math.random()*2.5,vy:2.2+Math.random()*1.8,len:85+Math.random()*95,alpha:1,width:1+Math.random()*0.9});}
+function draw(t){
+  ctx.clearRect(0,0,W,H);
+  stars.forEach(s=>{const tw=0.5+0.5*Math.sin(t*s.speed*1000+s.phase);ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(200,220,255,${s.alpha*(0.6+0.4*tw)})`;ctx.fill();});
+  meteors.forEach((m,i)=>{
+    const l=Math.hypot(m.vx,m.vy);
+    const tx=m.x-m.vx/l*m.len,ty=m.y-m.vy/l*m.len;
+    const g=ctx.createLinearGradient(tx,ty,m.x,m.y);
+    g.addColorStop(0,'rgba(180,220,255,0)');g.addColorStop(1,`rgba(255,255,255,${m.alpha})`);
+    ctx.beginPath();ctx.moveTo(tx,ty);ctx.lineTo(m.x,m.y);
+    ctx.strokeStyle=g;ctx.lineWidth=m.width;ctx.lineCap='round';ctx.stroke();
+    ctx.beginPath();ctx.arc(m.x,m.y,m.width*1.4,0,Math.PI*2);
+    ctx.fillStyle=`rgba(220,240,255,${m.alpha*0.8})`;ctx.fill();
+    m.x+=m.vx;m.y+=m.vy;m.alpha-=0.012;
+    if(m.alpha<=0||m.x>W+100||m.y>H+100)meteors.splice(i,1);
+  });
+  requestAnimationFrame(draw);
+}
+resize();initStars();
+window.addEventListener('resize',()=>{resize();initStars();});
+setInterval(spawnMeteor,2800);
+setTimeout(spawnMeteor,500);setTimeout(spawnMeteor,1400);
+requestAnimationFrame(draw);
+
+// Scroll-triggered fade-in
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.style.animationPlayState='running';});
+},{threshold:0.15});
+document.querySelectorAll('.tl-item').forEach(el=>{
+  el.style.animationPlayState='paused';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
